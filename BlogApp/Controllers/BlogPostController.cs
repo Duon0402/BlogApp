@@ -17,31 +17,29 @@ namespace BlogApp.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("GetBlogPosts")]
         public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogPosts()
         {
-            var blogPosts = _blogPostRepository.GetBlogPosts();
+            var blogPosts = await _blogPostRepository.GetBlogPosts();
             if (blogPosts == null) return NotFound();
             return Ok(blogPosts);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetBlogPost/{id}")]
         public async Task<ActionResult<BlogPost>> GetBlogPost(int id)
         {
-            var blogPost = _blogPostRepository.GetBlogPostById(id);
+            var blogPost = await _blogPostRepository.GetBlogPostById(id);
             if (blogPost == null) return BadRequest("Not Found");
-            return Ok(blogPost);
+            return  Ok(blogPost);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<BlogPost>> CreateBlogPost(BlogPost blogPost)
+        [HttpPost("CreateBlogPost")]
+        public async Task<ActionResult<BlogPost>> CreateBlogPost(BlogPostDto blogPostDto)
         {
-            if (blogPost == null) return BadRequest("Create Fail");
-            if (blogPost.Id == 0 || blogPost.Id == null)
-            {
-                _blogPostRepository.CreateBlogPost(blogPost);
-            }
-            return Ok();
+            if (blogPostDto == null) return BadRequest("Invalid Data");
+            var newBlogPost = await _blogPostRepository.CreateBlogPost(blogPostDto);
+            _mapper.Map<BlogPost>(newBlogPost);
+            return Ok(newBlogPost);
         }
     }
 }

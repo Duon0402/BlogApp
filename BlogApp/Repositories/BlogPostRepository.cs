@@ -18,22 +18,12 @@ namespace BlogApp.Repositories
             _mapper = mapper;
         }
 
-        public async void CreateBlogPost(BlogPost blogPost)
+        public async Task<BlogPostDto> CreateBlogPost(BlogPostDto blogPostDto)
         {
-            var newBlogPost = new BlogPost()
-            {
-                Id = blogPost.Id,
-                Title = blogPost.Title,
-                Content = blogPost.Content,
-                CreatedAt = blogPost.CreatedAt
-            };
-
-            await _dataContext.BlogPosts.AddAsync(newBlogPost);
-        }
-
-        public void DeleteBlogPost(BlogPost blogPost)
-        {
-            throw new NotImplementedException();
+            var newBlogPost = _mapper.Map<BlogPost>(blogPostDto);
+            _dataContext.BlogPosts.AddAsync(newBlogPost);
+            await _dataContext.SaveChangesAsync();
+            return blogPostDto;
         }
 
         public async Task<BlogPost> GetBlogPostById(int id)
