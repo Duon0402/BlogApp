@@ -1,6 +1,7 @@
 ﻿using BlogApp.Data;
 using BlogApp.Helpers;
 using BlogApp.Interfaces;
+using BlogApp.Reponsitory;
 using BlogApp.Repositories;
 using BlogApp.Services;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,8 @@ namespace BlogApp.Extentions
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IBlogPostRepository, BlogPostRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>
             {

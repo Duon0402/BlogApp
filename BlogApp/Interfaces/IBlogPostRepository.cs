@@ -1,12 +1,13 @@
 ﻿using BlogApp.DTOs;
 using BlogApp.Entities;
+using BlogApp.Helpers;
 
 namespace BlogApp.Interfaces
 {
     public interface IBlogPostRepository
     {
         Task<BlogPostDto> CreateBlogPost(BlogPostDto blogPostDto);
-        Task<IEnumerable<BlogPost>> GetBlogPosts();
+        Task<PagedList<BlogPostDto>> GetBlogPosts(BlogPostParams blogPostParams);
         Task<BlogPost> GetBlogPostById(int id);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BlogApp.DTOs;
 using BlogApp.Entities;
+using BlogApp.Extentions;
+using BlogApp.Helpers;
 using BlogApp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,23 +11,28 @@ namespace BlogApp.Controllers
     public class BlogPostController : BaseApiController
     {
         private readonly IBlogPostRepository _blogPostRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public BlogPostController(IBlogPostRepository blogPostRepository, IMapper mapper)
+        public BlogPostController(IBlogPostRepository blogPostRepository, IUserRepository userRepository,IMapper mapper)
         {
             _blogPostRepository = blogPostRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
         [HttpGet("GetBlogPosts")]
-        public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogPosts()
+        public async Task<ActionResult<IEnumerable<BlogPostDto>>> GetBlogPosts([FromQuery] BlogPostParams blogPostParams)
         {
-            var blogPosts = await _blogPostRepository.GetBlogPosts();
-            if (blogPosts == null) return NotFound();
+            var blogPosts = await _blogPostRepository.GetBlogPosts(blogPostParams);
+
+            Response.AddPaginationHeader(blogPosts.CurrentPage, blogPosts.PageSize, 
+                blogPosts.TotalCount, blogPosts.TotalPages);
+
             return Ok(blogPosts);
         }
 
-        [HttpGet("GetBlogPost/{id}")]
+        [HttpGet("{id}", Name = "GetBlogPost")]
         public async Task<ActionResult<BlogPost>> GetBlogPost(int id)
         {
             var blogPost = await _blogPostRepository.GetBlogPostById(id);

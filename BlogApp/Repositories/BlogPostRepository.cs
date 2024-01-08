@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BlogApp.Data;
 using BlogApp.DTOs;
 using BlogApp.Entities;
+using BlogApp.Helpers;
 using BlogApp.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,9 +33,19 @@ namespace BlogApp.Repositories
             return await _dataContext.BlogPosts.FindAsync(id);
         }
 
-        public async Task<IEnumerable<BlogPost>> GetBlogPosts()
+        public async Task<PagedList<BlogPostDto>> GetBlogPosts(BlogPostParams blogPostParams)
         {
-            return await _dataContext.BlogPosts.ToListAsync();
+            var query = _dataContext.BlogPosts.AsQueryable();
+
+            query = blogPostParams.OderBy switch
+            {
+                "old" => query.OrderBy(bp => bp.CreatedAt),
+                _ => query.OrderByDescending(bp => bp.CreatedAt)
+            };
+
+            return await PagedList<BlogPostDto>.CreateAsync(query.ProjectTo<BlogPostDto>(_mapper.ConfigurationProvider)
+                .AsNoTracking(),
+                blogPostParams.PageNumber, blogPostParams.PageSize);
         }
     }
 }
