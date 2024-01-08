@@ -9,6 +9,8 @@ namespace BlogApp.Helpers
         public AutoMapperProfiles() 
         {
             CreateMap<BlogPost, BlogPostDto>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, RegisterDto>().ReverseMap();
         }
     }
 }
