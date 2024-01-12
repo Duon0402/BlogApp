@@ -21,7 +21,11 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationService(builder.Configuration);
 builder.Services.AddIdentityService(builder.Configuration);
 
+// add cors
+builder.Services.AddCors();
 
+
+builder.Services.AddSwaggerDocument();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -34,6 +38,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 app.UseHttpsRedirection();
 
