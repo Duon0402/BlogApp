@@ -13,11 +13,20 @@ namespace BlogApp.Reponsitory
         {
             _context = context;
         }
-        public async Task<User> GetUserByUsernameAsync(string username)
+
+        public async Task<User> GetUserById(string id)
+        {
+            return await _context.Users
+                .Where(u => u.Id == id)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<User> GetUserByUsername(string username)
         {
             return await _context.Users
                 .Where(u => u.UserName == username)
                 .SingleOrDefaultAsync();
         }
+
     }
 }

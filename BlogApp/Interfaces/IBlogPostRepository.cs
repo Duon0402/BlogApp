@@ -8,6 +8,6 @@ namespace BlogApp.Interfaces
     {
         Task<BlogPostDto> CreateBlogPost(BlogPostDto blogPostDto);
         Task<PagedList<BlogPostDto>> GetBlogPosts(BlogPostParams blogPostParams);
-        Task<BlogPost> GetBlogPostById(int id);
+        Task<BlogPostDto> GetBlogPostById(int id);
     }
 }

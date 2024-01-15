@@ -21,15 +21,9 @@ namespace BlogApp.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>()
-                .HasMany(u => u.Comments)
-                .WithOne(c => c.User)
+                .HasMany(u => u.BlogPosts)
+                .WithOne(bp => bp.User)
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Likes)
-                .WithOne(l => l.User)
-                .HasForeignKey(l => l.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BlogPost>()

@@ -32,7 +32,7 @@ namespace BlogApp.Controllers
             return Ok(blogPosts);
         }
 
-        [HttpGet("{id}", Name = "GetBlogPost")]
+        [HttpGet("GetBlogPost/{id}")]
         public async Task<ActionResult<BlogPost>> GetBlogPost(int id)
         {
             var blogPost = await _blogPostRepository.GetBlogPostById(id);

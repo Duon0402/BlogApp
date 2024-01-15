@@ -5,6 +5,7 @@ using BlogApp.DTOs;
 using BlogApp.Entities;
 using BlogApp.Helpers;
 using BlogApp.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Repositories
@@ -28,9 +29,19 @@ namespace BlogApp.Repositories
             return blogPostDto;
         }
 
-        public async Task<BlogPost> GetBlogPostById(int id)
+        public async Task<BlogPostDto> GetBlogPostById(int id)
         {
-            return await _dataContext.BlogPosts.FindAsync(id);
+            var postBlog = await (from user in _dataContext.Users
+                            join blog in _dataContext.BlogPosts on user.Id equals blog.UserId
+                            where blog.Id == id
+                            select new BlogPostDto
+                            {
+                                UserName = user.UserName,
+                                Title = blog.Title,
+                                Content = blog.Content,
+                                CreatedAt = blog.CreatedAt,
+                            }).FirstOrDefaultAsync();
+            return postBlog;
         }
 
         public async Task<PagedList<BlogPostDto>> GetBlogPosts(BlogPostParams blogPostParams)

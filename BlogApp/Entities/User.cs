@@ -6,7 +6,5 @@ namespace BlogApp.Entities
     {
         public string FullName { get; set; }
         public ICollection<BlogPost> BlogPosts { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<Like> Likes { get; set; }
     }
 }
