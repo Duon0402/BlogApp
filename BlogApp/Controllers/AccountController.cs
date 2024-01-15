@@ -40,7 +40,7 @@ namespace BlogApp.Controllers
             return new UserDto
             {
                 UserName = registerDto.UserName,
-                FullName = registerDto.UserName,
+                FullName = registerDto.FullName,
                 Token = await _tokenService.CreateToken(newUser),
             };
         }
