@@ -63,6 +63,7 @@ namespace BlogApp.Controllers
 
             return new UserDto
             {
+                UserID = user.Id,
                 UserName = user.UserName,
                 FullName = user.FullName,
                 Token = await _tokenService.CreateToken(user),

@@ -41,7 +41,7 @@ namespace BlogApp.Controllers
         }
 
         [HttpPost("CreateBlogPost")]
-        public async Task<ActionResult<BlogPost>> CreateBlogPost(BlogPostDto blogPostDto)
+        public async Task<ActionResult<CreateBlogPostDto>> CreateBlogPost(CreateBlogPostDto blogPostDto)
         {
             if (blogPostDto == null) return BadRequest("Invalid Data");
             var newBlogPost = await _blogPostRepository.CreateBlogPost(blogPostDto);

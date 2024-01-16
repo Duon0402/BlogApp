@@ -21,7 +21,7 @@ namespace BlogApp.Repositories
             _mapper = mapper;
         }
 
-        public async Task<BlogPostDto> CreateBlogPost(BlogPostDto blogPostDto)
+        public async Task<CreateBlogPostDto> CreateBlogPost(CreateBlogPostDto blogPostDto)
         {
             var newBlogPost = _mapper.Map<BlogPost>(blogPostDto);
             _dataContext.BlogPosts.AddAsync(newBlogPost);

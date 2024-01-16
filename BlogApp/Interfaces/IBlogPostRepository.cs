@@ -6,7 +6,7 @@ namespace BlogApp.Interfaces
 {
     public interface IBlogPostRepository
     {
-        Task<BlogPostDto> CreateBlogPost(BlogPostDto blogPostDto);
+        Task<CreateBlogPostDto> CreateBlogPost(CreateBlogPostDto blogPostDto);
         Task<PagedList<BlogPostDto>> GetBlogPosts(BlogPostParams blogPostParams);
         Task<BlogPostDto> GetBlogPostById(int id);
     }
