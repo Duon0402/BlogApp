@@ -12,6 +12,7 @@ namespace BlogApp.Extentions
     {
         public static IServiceCollection AddApplicationService(this IServiceCollection services, IConfiguration config) 
         {
+            services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IBlogPostRepository, BlogPostRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
